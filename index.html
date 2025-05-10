@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Lưu và Tải File</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input[type="file"] { margin: 10px 0; }
+    button { margin: 10px 5px; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Lưu và Tải File</h2>
+
+  <input type="file" id="fileInput">
+  <button onclick="saveFile()">Lưu File</button>
+  <button onclick="downloadFile()">Tải File Xuống</button>
+
+  <script>
+    let storedFile = null;
+    let storedFilename = "file_da_luu.txt";
+
+    function saveFile() {
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length > 0) {
+        storedFile = fileInput.files[0];
+        storedFilename = storedFile.name;
+        alert("Đã lưu file: " + storedFilename);
+      } else {
+        alert("Vui lòng chọn file để lưu.");
+      }
+    }
+
+    function downloadFile() {
+      if (storedFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const blob = new Blob([e.target.result]);
+          saveAs(blob, storedFilename);
+        };
+        reader.readAsArrayBuffer(storedFile);
+      } else {
+        alert("Chưa có file nào được lưu.");
+      }
+    }
+  </script>
+</body>
+</html>
